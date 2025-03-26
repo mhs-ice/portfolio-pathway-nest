@@ -24,18 +24,20 @@ function App() {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Navbar />
-          <main className="min-h-screen">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/resume" element={<Resume />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/resume" element={<Resume />} />
+                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
