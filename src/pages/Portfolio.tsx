@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, Code, Briefcase, Star } from "lucide-react";
 
 const projects = [
   {
@@ -14,6 +14,7 @@ const projects = [
     technologies: ["React", "Node.js", "MongoDB", "Express", "Stripe API"],
     demoLink: "#",
     githubLink: "#",
+    featured: true,
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const projects = [
     technologies: ["React", "Firebase", "Tailwind CSS", "DnD Kit"],
     demoLink: "#",
     githubLink: "#",
+    featured: true,
   },
   {
     id: 3,
@@ -34,6 +36,7 @@ const projects = [
     technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Cloudinary"],
     demoLink: "#",
     githubLink: "#",
+    featured: false,
   },
   {
     id: 4,
@@ -44,6 +47,7 @@ const projects = [
     technologies: ["React", "D3.js", "TypeScript", "Redux"],
     demoLink: "#",
     githubLink: "#",
+    featured: true,
   },
   {
     id: 5,
@@ -54,6 +58,7 @@ const projects = [
     technologies: ["React Native", "Expo", "Firebase", "Spoonacular API"],
     demoLink: "#",
     githubLink: "#",
+    featured: false,
   },
   {
     id: 6,
@@ -64,42 +69,95 @@ const projects = [
     technologies: ["React", "OpenWeather API", "Chart.js", "Geolocation API"],
     demoLink: "#",
     githubLink: "#",
+    featured: false,
   },
 ];
 
 const Portfolio = () => {
   const categories = ["All", "Web Development", "Web Application", "UI/UX Design", "Mobile App"];
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
 
-  const filteredProjects = selectedCategory === "All"
-    ? projects
-    : projects.filter(project => project.category === selectedCategory);
+  const filteredProjects = projects
+    .filter(project => selectedCategory === "All" || project.category === selectedCategory)
+    .filter(project => !showFeaturedOnly || project.featured);
 
   return (
-    <div className="pt-24 min-h-screen bg-gray-50">
-      <div className="section-container">
-        <AnimatedSection className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Portfolio</h1>
+    <div className="min-h-screen bg-gray-50">
+      <div className="section-container pt-24">
+        {/* Hero Section */}
+        <AnimatedSection className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">My Portfolio</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Showcasing my recent projects and work
+            Showcasing my work across web development, UI/UX design, and application development
           </p>
         </AnimatedSection>
 
-        {/* Filter Categories */}
-        <AnimatedSection animation="slide-up" className="mb-10">
-          <div className="flex flex-wrap justify-center gap-2">
-            {categories.map((category, index) => (
-              <Button
-                key={index}
-                variant={selectedCategory === category ? "default" : "outline"}
-                className="rounded-full"
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
-              </Button>
-            ))}
+        {/* Intro Section */}
+        <AnimatedSection animation="slide-up" className="mb-16 bg-white rounded-xl p-8 shadow-sm">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="w-full md:w-1/3">
+              <div className="rounded-full bg-blue-100 p-6 w-24 h-24 flex items-center justify-center mx-auto md:mx-0">
+                <Briefcase className="w-12 h-12 text-blue-600" />
+              </div>
+            </div>
+            <div className="w-full md:w-2/3">
+              <h2 className="text-2xl font-bold mb-4">My Approach to Development</h2>
+              <p className="text-gray-600 mb-4">
+                I specialize in creating responsive, user-friendly applications with clean, maintainable code. My projects range from modern e-commerce solutions to interactive dashboards and mobile applications.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+                <Skill name="React" level={90} />
+                <Skill name="Node.js" level={85} />
+                <Skill name="UI/UX Design" level={80} />
+                <Skill name="Mobile Dev" level={75} />
+              </div>
+            </div>
           </div>
         </AnimatedSection>
+
+        {/* Filter Section */}
+        <AnimatedSection animation="slide-up" className="mb-10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+            <div className="flex flex-wrap justify-center gap-2">
+              {categories.map((category, index) => (
+                <Button
+                  key={index}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  className="rounded-full"
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant={showFeaturedOnly ? "default" : "outline"}
+                className="flex items-center gap-1 rounded-full"
+                onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
+              >
+                <Star className="h-4 w-4" />
+                <span>Featured Projects</span>
+              </Button>
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* Featured Projects Section */}
+        {showFeaturedOnly && (
+          <AnimatedSection className="mb-12">
+            <div className="bg-blue-50 rounded-xl p-6 mb-8">
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <Star className="h-5 w-5 text-yellow-500" />
+                Featured Projects
+              </h2>
+              <p className="text-gray-600 mb-4">
+                These are some of my best works that showcase my skills and expertise.
+              </p>
+            </div>
+          </AnimatedSection>
+        )}
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -113,6 +171,19 @@ const Portfolio = () => {
             <p className="text-lg text-gray-500">No projects found in this category.</p>
           </div>
         )}
+
+        {/* Contact Section */}
+        <AnimatedSection animation="fade-in" className="mt-16 text-center">
+          <div className="bg-white rounded-xl p-8 shadow-sm">
+            <h2 className="text-2xl font-bold mb-4">Interested in working together?</h2>
+            <p className="text-gray-600 mb-6 max-w-xl mx-auto">
+              I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
+            </p>
+            <Button asChild className="rounded-full px-8">
+              <a href="/contact">Get In Touch</a>
+            </Button>
+          </div>
+        </AnimatedSection>
       </div>
     </div>
   );
@@ -132,6 +203,14 @@ const ProjectCard = ({
       className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
     >
       <div className="relative aspect-video overflow-hidden">
+        {project.featured && (
+          <div className="absolute top-2 right-2 z-10">
+            <span className="bg-yellow-400 text-yellow-900 text-xs font-medium px-2 py-1 rounded-full flex items-center gap-1">
+              <Star className="h-3 w-3" />
+              Featured
+            </span>
+          </div>
+        )}
         <img
           src={project.image}
           alt={project.title}
@@ -178,6 +257,20 @@ const ProjectCard = ({
         </div>
       </div>
     </AnimatedSection>
+  );
+};
+
+const Skill = ({ name, level }: { name: string; level: number }) => {
+  return (
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 mb-2">
+        <Code className="h-8 w-8 text-blue-500" />
+      </div>
+      <h3 className="font-medium text-sm">{name}</h3>
+      <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+        <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: `${level}%` }}></div>
+      </div>
+    </div>
   );
 };
 
